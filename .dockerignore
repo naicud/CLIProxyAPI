@@ -1,5 +1,8 @@
 # Git and GitHub folders
+.git
 .git/*
+.git/**
+.github
 .github/*
 
 # Docker and CI/CD related files
@@ -20,6 +23,10 @@ auths/*
 logs/*
 conv/*
 config.yaml
+pgstore/*
+gitstore/*
+objectstore/*
+supabase/*
 
 # Development/editor
 bin/*
@@ -35,3 +42,8 @@ bin/*
 .bmad/*
 _bmad/*
 _bmad-output/*
+
+# Local env and macOS metadata
+.env
+.env.*
+._*

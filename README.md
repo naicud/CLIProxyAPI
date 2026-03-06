@@ -59,6 +59,7 @@ Get 10% OFF GLM CODING PLAN：https://z.ai/subscribe?ic=8JVLJQFSKB
 ## Getting Started
 
 CLIProxyAPI Guides: [https://help.router-for.me/](https://help.router-for.me/)
+- Local Docker Compose + Supabase/Postgres guide (Italian): [how-to-start.md](how-to-start.md)
 
 ## Management API
 
