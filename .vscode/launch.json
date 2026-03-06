@@ -12,8 +12,14 @@
       "mode": "auto",
       "program": "${workspaceFolder}/cmd/server",
       "cwd": "${workspaceFolder}",
+      "preLaunchTask": "🧰 Go: Init local workspace",
       "envFile": "${workspaceFolder}/.env",
       "env": {
+        "GOTOOLCHAIN": "go1.26.0",
+        "GOBIN": "${workspaceFolder}/bin",
+        "GOCACHE": "${workspaceFolder}/temp/go-build",
+        "GOMODCACHE": "${workspaceFolder}/temp/go-mod",
+        "GOTMPDIR": "${workspaceFolder}/temp/go-tmp",
         // Disabilita Supabase: usa file store locale + config.yaml in cwd
         "PGSTORE_DSN": "",
         "PGSTORE_SCHEMA": "",
@@ -36,8 +42,14 @@
       "mode": "auto",
       "program": "${workspaceFolder}/cmd/server",
       "cwd": "${workspaceFolder}",
+      "preLaunchTask": "🧰 Go: Init local workspace",
       "envFile": "${workspaceFolder}/.env",
       "env": {
+        "GOTOOLCHAIN": "go1.26.0",
+        "GOBIN": "${workspaceFolder}/bin",
+        "GOCACHE": "${workspaceFolder}/temp/go-build",
+        "GOMODCACHE": "${workspaceFolder}/temp/go-mod",
+        "GOTMPDIR": "${workspaceFolder}/temp/go-tmp",
         // Sovrascrive il path Docker /var/lib/cliproxy con percorso locale (gitignored)
         "PGSTORE_LOCAL_PATH": "${workspaceFolder}/pgstore"
       },
@@ -55,8 +67,14 @@
       "mode": "auto",
       "program": "${workspaceFolder}/cmd/server",
       "cwd": "${workspaceFolder}",
+      "preLaunchTask": "🧰 Go: Init local workspace",
       "envFile": "${workspaceFolder}/.env",
       "env": {
+        "GOTOOLCHAIN": "go1.26.0",
+        "GOBIN": "${workspaceFolder}/bin",
+        "GOCACHE": "${workspaceFolder}/temp/go-build",
+        "GOMODCACHE": "${workspaceFolder}/temp/go-mod",
+        "GOTMPDIR": "${workspaceFolder}/temp/go-tmp",
         "PGSTORE_LOCAL_PATH": "${workspaceFolder}/pgstore"
       },
       "args": ["-tui", "-standalone"],

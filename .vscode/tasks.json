@@ -5,7 +5,7 @@
     {
       "label": "🐳 Docker: Start (porta 9999)",
       "type": "shell",
-      "command": "docker compose up -d",
+      "command": "find . -name '._*' -delete && docker compose up -d --build --pull never",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -33,7 +33,7 @@
     {
       "label": "🐳 Docker: Rebuild & Start",
       "type": "shell",
-      "command": "docker compose build && docker compose up -d --remove-orphans --pull never",
+      "command": "find . -name '._*' -delete && docker compose build --pull never && docker compose up -d --remove-orphans --pull never",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -73,14 +73,35 @@
       },
       "problemMatcher": []
     },
+    {
+      "label": "🧰 Go: Init local workspace",
+      "type": "shell",
+      "command": "mkdir -p bin temp/go-build temp/go-mod temp/go-tmp",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
     // ─── Go Build ─────────────────────────────────────────────────────────────
     {
       "label": "🔨 Go: Build",
       "type": "shell",
       "command": "go build -o bin/cli-proxy-api ./cmd/server/",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "GOTOOLCHAIN": "go1.26.0",
+          "GOBIN": "${workspaceFolder}/bin",
+          "GOCACHE": "${workspaceFolder}/temp/go-build",
+          "GOMODCACHE": "${workspaceFolder}/temp/go-mod",
+          "GOTMPDIR": "${workspaceFolder}/temp/go-tmp"
+        }
       },
+      "dependsOn": ["🧰 Go: Init local workspace"],
       "group": {
         "kind": "build",
         "isDefault": true

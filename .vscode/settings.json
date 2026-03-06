@@ -7,6 +7,20 @@
   "go.testTimeout": "60s",
   "go.coverOnSave": false,
   "go.useLanguageServer": true,
+  "go.toolsEnvVars": {
+    "GOTOOLCHAIN": "go1.26.0",
+    "GOBIN": "${workspaceFolder}/bin",
+    "GOCACHE": "${workspaceFolder}/temp/go-build",
+    "GOMODCACHE": "${workspaceFolder}/temp/go-mod",
+    "GOTMPDIR": "${workspaceFolder}/temp/go-tmp"
+  },
+  "go.testEnvVars": {
+    "GOTOOLCHAIN": "go1.26.0",
+    "GOBIN": "${workspaceFolder}/bin",
+    "GOCACHE": "${workspaceFolder}/temp/go-build",
+    "GOMODCACHE": "${workspaceFolder}/temp/go-mod",
+    "GOTMPDIR": "${workspaceFolder}/temp/go-tmp"
+  },
 
   // ─── Gopls ────────────────────────────────────────────────────────────────
   "gopls": {
