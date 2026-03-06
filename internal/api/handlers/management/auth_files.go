@@ -234,6 +234,48 @@ func (h *Handler) managementCallbackURL(path string) (string, error) {
 	return fmt.Sprintf("%s://127.0.0.1:%d%s", scheme, h.cfg.Port, path), nil
 }
 
+func firstHeaderValue(value string) string {
+	if idx := strings.Index(value, ","); idx >= 0 {
+		value = value[:idx]
+	}
+	return strings.TrimSpace(value)
+}
+
+func managementRequestURL(c *gin.Context, path string) (string, bool) {
+	if c == nil || c.Request == nil {
+		return "", false
+	}
+	if !strings.HasPrefix(path, "/") {
+		path = "/" + path
+	}
+
+	host := strings.TrimSpace(c.Request.Host)
+	if host == "" {
+		host = firstHeaderValue(c.GetHeader("X-Forwarded-Host"))
+	}
+	if host == "" {
+		return "", false
+	}
+
+	scheme := firstHeaderValue(c.GetHeader("X-Forwarded-Proto"))
+	if scheme == "" {
+		if c.Request.TLS != nil {
+			scheme = "https"
+		} else {
+			scheme = "http"
+		}
+	}
+
+	return fmt.Sprintf("%s://%s%s", scheme, host, path), true
+}
+
+func (h *Handler) managementCallbackURLFromRequest(c *gin.Context, path string) (string, error) {
+	if targetURL, ok := managementRequestURL(c, path); ok {
+		return targetURL, nil
+	}
+	return h.managementCallbackURL(path)
+}
+
 func (h *Handler) ListAuthFiles(c *gin.Context) {
 	if h == nil {
 		c.JSON(500, gin.H{"error": "handler not initialized"})
@@ -1167,7 +1209,7 @@ func (h *Handler) RequestGeminiCLIToken(c *gin.Context) {
 	isWebUI := isWebUIRequest(c)
 	var forwarder *callbackForwarder
 	if isWebUI {
-		targetURL, errTarget := h.managementCallbackURL("/google/callback")
+		targetURL, errTarget := h.managementCallbackURLFromRequest(c, "/google/callback")
 		if errTarget != nil {
 			log.WithError(errTarget).Error("failed to compute gemini callback target")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "callback server unavailable"})

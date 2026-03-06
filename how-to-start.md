@@ -172,6 +172,22 @@ Con storage Postgres, il pannello management e il modo piu semplice per:
 - verificare le auth salvate;
 - lavorare sulla config persistita nel database, non su un file temporaneo.
 
+### Login Gemini/Google dal management
+
+Se usi il pannello management dal browser locale, il flusso Gemini deve completarsi tornando al callback pubblico del servizio, per esempio:
+
+```text
+http://localhost:9999/google/callback
+```
+
+Se preferisci un percorso piu diretto oppure stai facendo troubleshooting del browser callback, usa il workaround CLI dentro il container:
+
+```bash
+docker compose exec cli-proxy-api ./CLIProxyAPI -login -no-browser
+```
+
+Poi apri nel browser l'URL mostrato dal comando e completa l'autorizzazione Google. Con il compose di questa guida, il callback locale Gemini passa dalla porta `8085`.
+
 ## 6. Sistema la configurazione applicativa
 
 Dopo il primo avvio, verifica la config attiva e correggi soprattutto questi punti:
