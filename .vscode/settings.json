@@ -1,0 +1,44 @@
+{
+  // ─── Go extension ─────────────────────────────────────────────────────────
+  "go.gopath": null,
+  "go.toolsManagement.autoUpdate": true,
+  "go.lintTool": "golangci-lint",
+  "go.lintOnSave": "package",
+  "go.testTimeout": "60s",
+  "go.coverOnSave": false,
+  "go.useLanguageServer": true,
+
+  // ─── Gopls ────────────────────────────────────────────────────────────────
+  "gopls": {
+    "ui.semanticTokens": true,
+    "build.buildFlags": []
+  },
+
+  // ─── Editor ───────────────────────────────────────────────────────────────
+  "editor.formatOnSave": true,
+  "[go]": {
+    "editor.defaultFormatter": "golang.go",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+
+  // ─── File associations ────────────────────────────────────────────────────
+  "files.associations": {
+    "*.env*": "dotenv",
+    "config*.yaml": "yaml",
+    "docker-compose*.yml": "yaml"
+  },
+
+  // ─── Escludi dalla sidebar (già in .gitignore) ───────────────────────────
+  "files.exclude": {
+    "**/pgstore": true,
+    "**/bin": true,
+    "**/logs": true,
+    "**/auths": true
+  }
+}

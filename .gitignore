@@ -32,7 +32,6 @@ CLAUDE.md
 GEMINI.md
 
 # Tooling metadata
-.vscode/*
 .codex/*
 .claude/*
 .gemini/*

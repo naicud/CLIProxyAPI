@@ -1,0 +1,235 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ─── Docker Compose ───────────────────────────────────────────────────────
+    {
+      "label": "🐳 Docker: Start (porta 9999)",
+      "type": "shell",
+      "command": "docker compose up -d",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "docker"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🐳 Docker: Stop",
+      "type": "shell",
+      "command": "docker compose down",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "docker"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🐳 Docker: Rebuild & Start",
+      "type": "shell",
+      "command": "docker compose build && docker compose up -d --remove-orphans --pull never",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "docker"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🐳 Docker: Logs",
+      "type": "shell",
+      "command": "docker compose logs -f cli-proxy-api",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "docker"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🐳 Docker: Restart",
+      "type": "shell",
+      "command": "docker compose restart cli-proxy-api",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "docker"
+      },
+      "problemMatcher": []
+    },
+    // ─── Go Build ─────────────────────────────────────────────────────────────
+    {
+      "label": "🔨 Go: Build",
+      "type": "shell",
+      "command": "go build -o bin/cli-proxy-api ./cmd/server/",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$go"]
+    },
+    // ─── Provider Login (dentro il container) ─────────────────────────────────
+    {
+      "label": "🔑 Login: Gemini",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -login -no-browser",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: Claude",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -claude-login -no-browser",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: Codex",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -codex-login -no-browser",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: Codex (device code)",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -codex-device-login",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: Qwen",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -qwen-login",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: Antigravity",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -antigravity-login -no-browser",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: iFlow",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -iflow-login -no-browser",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔑 Login: Kimi",
+      "type": "shell",
+      "command": "docker compose exec cli-proxy-api ./CLIProxyAPI -kimi-login",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "login"
+      },
+      "problemMatcher": []
+    },
+    // ─── Test rapido endpoint ─────────────────────────────────────────────────
+    {
+      "label": "🧪 Test: /v1/models (docker, porta 9999)",
+      "type": "shell",
+      "command": "curl -s http://localhost:9999/v1/models -H 'Authorization: Bearer dev-local-key' | head -c 2000",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🧪 Test: /v1/models (go debug, porta 9999)",
+      "type": "shell",
+      "command": "curl -s http://localhost:9999/v1/models -H 'Authorization: Bearer dev-local-key' | head -c 2000",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

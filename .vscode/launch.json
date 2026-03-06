@@ -1,0 +1,72 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // ─── Debug Go: locale, senza Docker ───────────────────────────────────────
+    // Usa config.yaml (gitignored) con port: 9999 e file store locale.
+    // Non richiede Docker. Ideale per debug rapido.
+    // Management panel: http://localhost:9999/management.html
+    {
+      "name": "🐹 Debug: Server local (porta 9999, no Supabase)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/server",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        // Disabilita Supabase: usa file store locale + config.yaml in cwd
+        "PGSTORE_DSN": "",
+        "PGSTORE_SCHEMA": "",
+        "PGSTORE_LOCAL_PATH": ""
+      },
+      "args": ["-config", "${workspaceFolder}/config.yaml"],
+      "showLog": true
+    },
+
+    // ─── Debug Go: con Supabase ────────────────────────────────────────────────
+    // Carica .env (PGSTORE_DSN attivo). La porta viene dal config in Supabase.
+    // Al primo avvio bootstrap da config.example.yaml (porta 8317 di default).
+    // → Per usare la porta 9999: cambia "port" via management panel (http://localhost:8317/management.html)
+    //   dopo il primo avvio, poi riavvia.
+    // PGSTORE_LOCAL_PATH sovrascritta con percorso locale macOS (evita /var/lib/cliproxy di Docker).
+    {
+      "name": "🐹 Debug: Server + Supabase",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/server",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        // Sovrascrive il path Docker /var/lib/cliproxy con percorso locale (gitignored)
+        "PGSTORE_LOCAL_PATH": "${workspaceFolder}/pgstore"
+      },
+      "args": [],
+      "showLog": true
+    },
+
+    // ─── Debug Go: TUI standalone ──────────────────────────────────────────────
+    // Avvia il server embedded + interfaccia TUI nel terminale.
+    // Porta e config come la config "Server + Supabase".
+    {
+      "name": "🖥️  Debug: TUI standalone + Supabase",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/server",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "PGSTORE_LOCAL_PATH": "${workspaceFolder}/pgstore"
+      },
+      "args": ["-tui", "-standalone"],
+      "showLog": true
+    }
+  ],
+
+  "compounds": [
+    // Compound: avvia Docker e poi apre il log.
+    // Nota: VS Code non ha un tipo "task" compound nativo per launch.json —
+    // usa "Run Task → 🐳 Docker: Start" per avviare il full stack.
+  ]
+}
