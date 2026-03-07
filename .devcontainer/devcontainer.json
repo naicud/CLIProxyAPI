@@ -1,0 +1,63 @@
+{
+  "name": "CLIProxyAPI Dev",
+  "image": "golang:1.26-alpine",
+
+  // Mount the workspace and reuse Go caches outside the container for speed
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  "mounts": [
+    // Persist Go module cache across rebuilds
+    "source=cliproxyapi-gomodcache,target=/go/pkg/mod,type=volume",
+    "source=cliproxyapi-gobuildcache,target=/root/.cache/go-build,type=volume"
+  ],
+
+  // Install dev tools inside the container
+  "onCreateCommand": "apk add --no-cache git curl tzdata && go install golang.org/x/tools/gopls@latest && go install github.com/go-delve/delve/cmd/dlv@latest && go install golang.org/x/tools/cmd/goimports@latest",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "redhat.vscode-yaml",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "go.goroot": "/usr/local/go",
+        "go.toolsManagement.autoUpdate": false,
+        "go.useLanguageServer": true,
+        "go.lintTool": "golangci-lint",
+        "go.lintOnSave": "package",
+        "go.testTimeout": "60s",
+        "go.toolsEnvVars": {
+          "GOBIN": "/workspace/bin",
+          "GOCACHE": "/root/.cache/go-build",
+          "GOMODCACHE": "/go/pkg/mod"
+        },
+        "go.testEnvVars": {
+          "GOBIN": "/workspace/bin",
+          "GOCACHE": "/root/.cache/go-build",
+          "GOMODCACHE": "/go/pkg/mod"
+        },
+        "gopls": {
+          "ui.semanticTokens": true,
+          "build.buildFlags": []
+        },
+        "editor.formatOnSave": true,
+        "[go]": {
+          "editor.defaultFormatter": "golang.go",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        }
+      }
+    }
+  },
+
+  // Forward all ports declared in docker-compose
+  "forwardPorts": [8317, 8085, 1455, 54545, 51121, 11451, 2345],
+
+  "remoteUser": "root"
+}

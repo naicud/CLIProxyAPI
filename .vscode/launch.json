@@ -25,10 +25,12 @@
         "PGSTORE_SCHEMA": "",
         "PGSTORE_LOCAL_PATH": ""
       },
-      "args": ["-config", "${workspaceFolder}/config.yaml"],
+      "args": [
+        "-config",
+        "${workspaceFolder}/config.yaml"
+      ],
       "showLog": true
     },
-
     // ─── Debug Go: con Supabase ────────────────────────────────────────────────
     // Carica .env (PGSTORE_DSN attivo). La porta viene dal config in Supabase.
     // Al primo avvio bootstrap da config.example.yaml (porta 8317 di default).
@@ -56,7 +58,6 @@
       "args": [],
       "showLog": true
     },
-
     // ─── Debug Go: TUI standalone ──────────────────────────────────────────────
     // Avvia il server embedded + interfaccia TUI nel terminale.
     // Porta e config come la config "Server + Supabase".
@@ -77,14 +78,45 @@
         "GOTMPDIR": "${workspaceFolder}/temp/go-tmp",
         "PGSTORE_LOCAL_PATH": "${workspaceFolder}/pgstore"
       },
-      "args": ["-tui", "-standalone"],
+      "args": [
+        "-tui",
+        "-standalone"
+      ],
       "showLog": true
+    },
+    // ─── Debug Go: Dev Container (Delve) ──────────────────────────────────────
+    // Usa questo quando sei dentro il Dev Container (.devcontainer).
+    // Delve è già installato nell'immagine via onCreateCommand.
+    // Porta dlv: 2345 (forwardata automaticamente da VS Code).
+    {
+      "name": "🐳 Debug: Dev Container (Delve, porta 9999)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/server",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "GOBIN": "/workspace/bin",
+        "GOCACHE": "/root/.cache/go-build",
+        "GOMODCACHE": "/go/pkg/mod",
+        "PGSTORE_DSN": "",
+        "PGSTORE_SCHEMA": "",
+        "PGSTORE_LOCAL_PATH": ""
+      },
+      "args": [
+        "-config",
+        "${workspaceFolder}/config.yaml"
+      ],
+      "dlvFlags": [
+        "--check-go-version=false"
+      ],
+      "showLog": true,
+      "port": 2345,
+      "host": "127.0.0.1"
     }
   ],
-
-  "compounds": [
-    // Compound: avvia Docker e poi apre il log.
-    // Nota: VS Code non ha un tipo "task" compound nativo per launch.json —
-    // usa "Run Task → 🐳 Docker: Start" per avviare il full stack.
-  ]
+  // Compound: avvia Docker e poi apre il log.
+  // Nota: VS Code non ha un tipo "task" compound nativo per launch.json —
+  // usa "Run Task → 🐳 Docker: Start" per avviare il full stack.
 }

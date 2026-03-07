@@ -1,5 +1,9 @@
 {
   // ─── Go extension ─────────────────────────────────────────────────────────
+  "go.goroot": "/opt/homebrew/Cellar/go/1.26.1/libexec",
+  "go.alternateTools": {
+    "go": "/opt/homebrew/bin/go"
+  },
   "go.gopath": null,
   "go.toolsManagement.autoUpdate": true,
   "go.lintTool": "golangci-lint",
