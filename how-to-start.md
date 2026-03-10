@@ -207,7 +207,7 @@ Sostituiscile con valori reali oppure riduci la lista a una sola chiave forte, p
 
 ```yaml
 api-keys:
-  - "cliproxy-local-dev-key"
+  - "dev-local-key"
 ```
 
 Questa chiave ti servira per chiamare gli endpoint `/v1/*`.
@@ -314,14 +314,14 @@ Usa una delle API key configurate nella proxy:
 
 ```bash
 curl http://localhost:8317/v1/models \
-  -H "Authorization: Bearer cliproxy-local-dev-key"
+  -H "Authorization: Bearer dev-local-key"
 ```
 
 Oppure:
 
 ```bash
 curl http://localhost:8317/v1/models \
-  -H "X-Api-Key: cliproxy-local-dev-key"
+  -H "X-Api-Key: dev-local-key"
 ```
 
 Se hai completato correttamente i login, qui vedrai i modelli disponibili dei provider autenticati.
@@ -332,10 +332,10 @@ Sostituisci `<MODELLO_REALE>` con uno dei modelli restituiti da `/v1/models`:
 
 ```bash
 curl http://localhost:8317/v1/chat/completions \
-  -H "Authorization: Bearer cliproxy-local-dev-key" \
+  -H "Authorization: Bearer dev-local-key" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "<MODELLO_REALE>",
+    "model": "gemini-3-flash-preview",
     "messages": [
       {
         "role": "user",
